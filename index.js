@@ -1,6 +1,7 @@
 'use strict';
 
 var discache = require('./lib/discache'),
-    port = 63790;
+    NODE_ENV = process.env.NODE_ENV || 'development',
+    config = require('./config/config.json')[NODE_ENV];
 
-discache.createServer(port);
+discache.createServer(config);
