@@ -1,16 +1,24 @@
 {
-  "name": "discache",
-  "version": "0.0.0",
-  "private": true,
+  "name": "redis-cache-proxy",
+  "description": "Redis proxy for cache service",
+  "version": "0.0.1",
+  "main":"index.js",
   "dependencies": {
     "hiredis": "~0.1.15",
     "fast-list": "~1.0.2",
     "hashring": "~1.0.2",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "jackpot": "0.0.6"
   },
   "devDependencies": {
     "mocha": "~1.12.0",
     "should": "~1.2.2",
     "redis": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:SOHU-Co/redis-cache-proxy.git"
   }
 }
+
+
