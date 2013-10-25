@@ -2,8 +2,8 @@ Redis cache proxy
 ========
 Redis proxy for distribute *cache* service
 
-# Useage
-See (https://github.com/SOHU-Co/redis-cache-proxy/example)
+# Usage
+See (https://github.com/SOHU-Co/redis-cache-proxy/tree/master/example)
 
 # LICENSE - "MIT"
 Copyright (c) 2013 Sohu.com
