@@ -43,7 +43,7 @@ describe('Integrate', function () {
                 total = 0;
             for(var i=1; i<= count; i++) {
                 (function (i) {
-                    client.set('keyyy'+i, i, function (err,data) {
+                    client.set('keyyy'+i, i, function (err) {
                         client.get('keyyy'+i, function (err,data) {
                             if (!err) data.should.equal(i+'');
                             if (++total === count) done();

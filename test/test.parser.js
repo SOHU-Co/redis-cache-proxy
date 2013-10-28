@@ -1,5 +1,4 @@
-var Parser = require('../lib/parser'),
-    net = require('net');
+var Parser = require('../lib/parser');
 
 var parser = new Parser(),
     raw_1, raw_2, raw_3;
