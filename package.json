@@ -1,7 +1,7 @@
 {
   "name": "redis-cache-proxy",
   "description": "Redis proxy for cache service",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main":"index.js",
   "dependencies": {
     "hiredis": "~0.1.15",

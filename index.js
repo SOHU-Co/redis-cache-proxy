@@ -12,9 +12,13 @@ exports.createServer = function (servers) {
         var response = new Response(socket);
         function reply(reply) {
             pool.select(reply[1], function (err, client) {
-               response.commandQueue.push(client.id);
-               if (err) return response.error('Connection refused', client.id);
-               client.write(reply, response);
+                response.commandQueue.push(client.id);
+                var cmd = reply[0];
+                if (!~SUPPORTED_COMMANDS.indexOf(cmd.toUpperCase()))
+                    return response.error('ERR unsuported command ' + cmd, client.id);
+
+                if (err) return response.error('Connection refused', client.id);
+                client.write(reply, response);
             });
         }
 
@@ -36,3 +40,5 @@ exports.createServer = function (servers) {
 
     return server;
 }
+
+var SUPPORTED_COMMANDS = ['DEL','DUMP','EXISTS','EXPIRE','EXPIREAT','PERSIST','PEXPIRE','PEXPIREAT','PTTL','RESTORE','TTL','TYPE','APPEND','BITCOUNT','DECR','DECRBY','GET','GETBIT','GETRANGE','GETSET','INCR','INCRBY','INCRBYFLOAT','MGET','PSETEX','SET','SETBIT','SETEX','SETNX','SETRANGE','STRLEN','HDEL','HEXISTS','HGET','HGETALL','HINCRBY','HINCRBYFLOAT','HKEYS','HLEN','HMGET','HMSET','HSET','HSETNX','HVALS','LINDEX','LINSERT','LLEN','LPOP','LPUSH','LPUSHX','LRANGE','LREM','LSET','LTRIM','RPOP','RPOPLPUSH','RPUSH','RPUSHX','SADD','SCARD','SDIFF','SDIFFSTORE','SINTER','SINTERSTORE','SISMEMBER','SMEMBERS','SMOVE','SPOP','SRANDMEMBER','SREM','SUNION','SUNIONSTORE','ZADD','ZCARD','ZCOUNT','ZINCRBY','ZINTERSTORE','ZRANGE','ZRANGEBYSCORE','ZRANK','ZREM','ZREMRANGEBYRANK','ZREMRANGEBYSCORE','ZREVRANGE','ZREVRANGEBYSCORE','ZREVRANK','ZSCORE','ZUNIONSTORE','EVAL','EVALSHA'];
