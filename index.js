@@ -15,7 +15,7 @@ exports.createServer = function (servers) {
                 response.commandQueue.push(client.id);
                 var cmd = reply[0];
                 if (!~SUPPORTED_COMMANDS.indexOf(cmd.toUpperCase()))
-                    return response.error('ERR unsuported command ' + cmd, client.id);
+                    return response.error("ERR unsupported command '" + cmd + "'", client.id);
 
                 if (err) return response.error('Connection refused', client.id);
                 client.write(reply, response);
@@ -31,7 +31,6 @@ exports.createServer = function (servers) {
         }); 
 
         socket.on('end', function () {
-            console.log('client disconnected');
         });
 
         socket.on('error', function () {
