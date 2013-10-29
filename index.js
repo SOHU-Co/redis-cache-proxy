@@ -4,8 +4,8 @@ var net = require('net'),
     Parser = require('./lib/parser'),
     Response = require('./lib/response');
 
-exports.createServer = function (servers) {
-    var pool = new Pool(servers);
+exports.createServer = function (config) {
+    var pool = new Pool(config.servers);
     var server = net.createServer(function (socket) {
         console.log('client connected')
         var parser = new Parser();
@@ -14,6 +14,10 @@ exports.createServer = function (servers) {
             pool.select(reply[1], function (err, client) {
                 response.commandQueue.push(client.id);
                 var cmd = reply[0];
+
+                if (cmd.toUpperCase() === 'INFO')
+                    return response.write('redis_version:' + config.redisVersion, client.id);
+
                 if (!~SUPPORTED_COMMANDS.indexOf(cmd.toUpperCase()))
                     return response.error("ERR unsupported command '" + cmd + "'", client.id);
 
