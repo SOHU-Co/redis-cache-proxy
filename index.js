@@ -5,6 +5,9 @@ var net = require('net'),
     Response = require('./lib/response');
 
 exports.createServer = function (config) {
+    if (!config.servers || !Object.keys(config.servers).length) 
+        throw new Error('Servers can not be blank!');
+
     var pool = new Pool(config.servers);
     var server = net.createServer(function (socket) {
         console.log('client connected')
@@ -21,7 +24,9 @@ exports.createServer = function (config) {
                 if (!~SUPPORTED_COMMANDS.indexOf(cmd.toUpperCase()))
                     return response.error("ERR unsupported command '" + cmd + "'", client.id);
 
-                if (err) return response.error('Connection refused', client.id);
+                if (err) 
+                    return response.error('ERR Connection refused', client.id);
+
                 client.write(reply, response);
             });
         }
@@ -44,4 +49,4 @@ exports.createServer = function (config) {
     return server;
 }
 
-var SUPPORTED_COMMANDS = ['DEL','DUMP','EXISTS','EXPIRE','EXPIREAT','PERSIST','PEXPIRE','PEXPIREAT','PTTL','RESTORE','TTL','TYPE','APPEND','BITCOUNT','DECR','DECRBY','GET','GETBIT','GETRANGE','GETSET','INCR','INCRBY','INCRBYFLOAT','MGET','PSETEX','SET','SETBIT','SETEX','SETNX','SETRANGE','STRLEN','HDEL','HEXISTS','HGET','HGETALL','HINCRBY','HINCRBYFLOAT','HKEYS','HLEN','HMGET','HMSET','HSET','HSETNX','HVALS','LINDEX','LINSERT','LLEN','LPOP','LPUSH','LPUSHX','LRANGE','LREM','LSET','LTRIM','RPOP','RPOPLPUSH','RPUSH','RPUSHX','SADD','SCARD','SDIFF','SDIFFSTORE','SINTER','SINTERSTORE','SISMEMBER','SMEMBERS','SMOVE','SPOP','SRANDMEMBER','SREM','SUNION','SUNIONSTORE','ZADD','ZCARD','ZCOUNT','ZINCRBY','ZINTERSTORE','ZRANGE','ZRANGEBYSCORE','ZRANK','ZREM','ZREMRANGEBYRANK','ZREMRANGEBYSCORE','ZREVRANGE','ZREVRANGEBYSCORE','ZREVRANK','ZSCORE','ZUNIONSTORE','EVAL','EVALSHA'];
+var SUPPORTED_COMMANDS = exports.commands = ['DEL','DUMP','EXISTS','EXPIRE','EXPIREAT','PERSIST','PEXPIRE','PEXPIREAT','PTTL','RESTORE','TTL','TYPE','APPEND','BITCOUNT','DECR','DECRBY','GET','GETBIT','GETRANGE','GETSET','INCR','INCRBY','INCRBYFLOAT','MGET','PSETEX','SET','SETBIT','SETEX','SETNX','SETRANGE','STRLEN','HDEL','HEXISTS','HGET','HGETALL','HINCRBY','HINCRBYFLOAT','HKEYS','HLEN','HMGET','HMSET','HSET','HSETNX','HVALS','LINDEX','LINSERT','LLEN','LPOP','LPUSH','LPUSHX','LRANGE','LREM','LSET','LTRIM','RPOP','RPOPLPUSH','RPUSH','RPUSHX','SADD','SCARD','SDIFF','SDIFFSTORE','SINTER','SINTERSTORE','SISMEMBER','SMEMBERS','SMOVE','SPOP','SRANDMEMBER','SREM','SUNION','SUNIONSTORE','ZADD','ZCARD','ZCOUNT','ZINCRBY','ZINTERSTORE','ZRANGE','ZRANGEBYSCORE','ZRANK','ZREM','ZREMRANGEBYRANK','ZREMRANGEBYSCORE','ZREVRANGE','ZREVRANGEBYSCORE','ZREVRANK','ZSCORE','ZUNIONSTORE','EVAL','EVALSHA'];
